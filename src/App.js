@@ -14,6 +14,7 @@ const App = () => {
                   <Card.Img variant="top" src={res.img} />
                   <Card.Body>
                     <Card.Title>{res.name}</Card.Title>
+                    <Card.Title>{res.name}</Card.Title>
                     <Card.Text>{res.description}</Card.Text>
                   </Card.Body>
                   <Card.Footer>
