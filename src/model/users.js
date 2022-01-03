@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     email : {
         type : String,
         require : true,
+        unique : true,
         lowercase : true,
         minlength : 3,
         validate(value) {
@@ -29,6 +30,16 @@ const userSchema = new mongoose.Schema({
     password : {
         type : String,
         require : true
+    },
+    address : {
+        type : String,
+        maxlength : 300
+    },
+    mobile : {
+        type : Number,
+        require : true,
+        minlength:6,
+        maxlength:10
     },
     tokens : [{
         token : {
@@ -45,6 +56,7 @@ userSchema.methods.generateToken = async function () {
     await this.save()
     return tokenVal
 }
+
 
 const User = new mongoose.model("User",userSchema)
 

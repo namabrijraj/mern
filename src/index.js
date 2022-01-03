@@ -19,6 +19,9 @@ app.use(express.urlencoded({extended:false}))
 app.use(routers)
 app.set("view engine","hbs")
 app.set("views",template_path)
+app.use('*/css',express.static('public/css'));
+app.use('*/js',express.static('public/js'));
+app.use('*/img',express.static('public/images'));
 hbs.registerPartials(partial_path)
 
 app.listen(port, () => {

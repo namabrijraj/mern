@@ -12,7 +12,7 @@ const auth = async (req,res,next) => {
         console.log(userdata)
         next()
     } catch (error) {
-        res.status(400).render('login')
+        res.render('login')
     }
 }
 
