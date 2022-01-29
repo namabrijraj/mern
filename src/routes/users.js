@@ -17,16 +17,19 @@ routes.get('/users', async (req,res) => {
     res.status(201).render('users/index',{all_users:users})
 })
 
-routes.get('/user/:id', async (req,res) => {
-    const result = await User.findById(req.params.id);
-    res.status(201).render('users/show',{user:result})
-})
 
-routes.get('/user/add', async (req,res) => {
+ routes.get('/user/delete/:id', async (req,res) => {
+     await User.deleteOne({_id:req.params.id});
+     const result = await User.findById(req.params.id);
+     req.flash('success', 'User deleted successfully!')
+     res.render('users/index',{ 'all_users':result,'success_message' : req.flash() })
+ })
+
+routes.get('/user/add',auth, async (req,res) => {
     res.status(201).render('users/add')
 })
 
-routes.post('/user', auth,async (req,res) => {
+routes.post('/user', async (req,res) => {
     try {
         const hasPwd = await bcrypt.hash(req.body.password,10)
         
@@ -41,8 +44,11 @@ routes.post('/user', auth,async (req,res) => {
         const token = await userParam.generateToken()
         userParam.tokens = userParam.tokens.concat({token:token})
         const result = await userParam.save()
-        console.log(result)
-        res.status(201).render('users')
+        const users = await User.find();
+        //console.log(result)
+        //res.status(201).render('users')
+        req.flash('success', 'User added successfully!')
+        res.render('users/index',{ 'all_users':users,'success_message' : req.flash() })
     } catch (error) {
         console.log(error)
         res.status(500).render('users/add')
@@ -63,22 +69,36 @@ routes.post('/login', async (req,res) => {
         const email = req.body.email
         const password = req.body.password
         const data = await User.findOne({email:email})
-        const isMatch = await bcrypt.compare(password,data.password);
-        if(isMatch){
-            const token = await data.generateToken()
-            res.cookie('jwt',token,{
-                httpOnly : true,
-                expires: new Date(Date.now() + 900000)
-                //secure : true
-            })
-            res.status(201).render('dashboard')
+        console.log(data)
+        if(data){
+            console.log(data)
+            const isMatch = await bcrypt.compare(password,data.password);
+            if(isMatch){
+                const token = await data.generateToken()
+                res.cookie('jwt',token,{
+                    httpOnly : true,
+                    expires: new Date(Date.now() + 900000)
+                    //secure : true
+                })
+                res.status(201).render('dashboard')
+            } else {
+                req.flash('error','Invalid Login Detail')
+                res.status(401).send('Invalid Login Detail')
+            }
         } else {
-            res.status(401).send('Invalid Login Detail')
+            req.flash('error','Invalid Login Detail')
+            res.status(500).render('login')
         }
     } catch (error) {
         console.log(error)
+        req.flash('error','Invalid Login Detail')
         res.status(500).render('login')   
     }
 })
+
+routes.get('/user/:id', async (req,res) => {
+    const result = await User.findById(req.params.id);
+    res.status(201).render('users/show',{user:result})
+});
 
 module.exports = routes

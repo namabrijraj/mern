@@ -10,7 +10,9 @@
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
-
+      {{#if error}}
+        <div class="alert alert-danger">{{error}}{{this.error}}</div>
+      {{/if}}
       <form action="/login" method="post">
         <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="Email">

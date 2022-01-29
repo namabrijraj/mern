@@ -13,12 +13,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>User Add</h1>
+            <h1>Product Add</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">User Add</li>
+              <li class="breadcrumb-item active">Product Add</li>
             </ol>
           </div>
         </div>
@@ -27,7 +27,7 @@
 
     <!-- Main content -->
     <section class="content">
-      <form action="/user" method="post">  
+      <form action="/product" method="post" enctype="multipart/form-data">  
       <div class="row">
         <div class="col-md-12">
           <div class="card card-primary">
@@ -42,28 +42,33 @@
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="inputName">First Name</label>
-                <input type="text" name="firstname" id="inputName" class="form-control">
+                <label for="inputName">Product Name</label>
+                <input type="text" name="name" id="inputName" class="form-control">
               </div>
               <div class="form-group">
-                <label for="inputName">Last Name</label>
-                <input type="text" name="lastname" id="inputName" class="form-control">
+                <label for="inputName">SKU</label>
+                <input type="text" name="sku" id="inputName" class="form-control">
               </div>
               <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input type="text" name="email" id="inputEmail" class="form-control">
+                <label for="inputName">Image</label>
+                <input type="file" name="image" id="inputName" class="form-control">
               </div>
               <div class="form-group">
-                <label for="inputPwd">Password</label>
-                <input type="password" name="password" id="inputPwd" class="form-control">
+                <label for="inputName">Category</label>
+                <select id="inputName" class="form-control" name="cat_id">
+                  {{#if categories}}
+                  {{#each categories}}
+                  <option value={{this._id}}>{{this.name}}</option>
+                  {{/each}}
+                  {{/if}}
+                </select>
               </div>
               <div class="form-group">
-                <label for="inputMobile">Mobile</label>
-                <input type="text" name="mobile" id="inputMobile" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="inputDescription">Address</label>
-                <textarea id="inputDescription" name="address" class="form-control" rows="4"></textarea>
+                <label for="inputName">Status</label>
+                <select id="inputName" class="form-control" name="isActive">
+                  <option value="1">Active</option>
+                  <option value="0">In-Active</option>
+                </select>
               </div>
             </div>
             <!-- /.card-body -->
@@ -74,7 +79,7 @@
       <div class="row">
         <div class="col-12">
           <a href="#" class="btn btn-secondary">Cancel</a>
-          <input type="submit" value="Create new User" class="btn btn-success float-right">
+          <input type="submit" value="Create new Category" class="btn btn-success float-right">
         </div>
       </div>
       </form>

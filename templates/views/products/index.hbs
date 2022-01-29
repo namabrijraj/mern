@@ -13,7 +13,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Users</h1>
+            <h1>Products</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,7 +31,7 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Users</h3>
+          <h3 class="card-title">Products</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -41,8 +41,8 @@
             </button>
           </div>
         </div>
-        {{#if success_message}}
-              <div class="alert alert-success">{{this.success_message.success}}</div>
+        {{#if success}}
+              <div class="alert alert-success">{{this.success}}</div>
           {{/if}}
         <div class="card-body p-0">
           <table class="table table-striped projects">
@@ -55,7 +55,10 @@
                           Name
                       </th>
                       <th style="width: 30%">
-                          Email
+                          Slug
+                      </th>
+                      <th>
+                        Image
                       </th>
                       <th style="width: 8%" class="text-center">
                           Status
@@ -65,39 +68,44 @@
                   </tr>
               </thead>
               <tbody>
-                {{#if all_users}}  
-                    {{#each all_users}}
+                {{#if products}}  
+                    {{#each products}}
                         <tr>
                             <td>
                                 #
                             </td>
                             <td>
                                 <a>
-                                    {{this.firstname}} {{this.lastname}}
+                                    {{this.name}}
                                 </a>
                                 <br/>
                                 <small>
-                                    Created 01.01.2019
+                                   {{this.created}}
                                 </small>
                             </td>
                             <td>
-                                {{this.email}}
+                                {{this.slug}}
+                            </td>
+                            <td>
+                                <img src="/img/{{this.image}}" alt="" srcset="">
                             </td>
                             <td class="project-state">
-                                <span class="badge badge-success">Success</span>
+                                <span class="badge badge-success">
+                                  {{#if this.isActive}} In-Active {{^}} Active {{/if}}
+                                </span>
                             </td>
                             <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="/user/{{this._id}}">
+                                <a class="btn btn-primary btn-sm" href="/category/{{this._id}}">
                                     <i class="fas fa-folder">
                                     </i>
                                     View
                                 </a>
-                                <a class="btn btn-info btn-sm" href="/user/{{this._id}}">
+                                <a class="btn btn-info btn-sm" href="/category/{{this._id}}">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                     Edit
                                 </a>
-                                <a class="btn btn-danger btn-sm" href="/user/delete/{{this._id}}">
+                                <a class="btn btn-danger btn-sm" href="/category/delete/{{this._id}}">
                                     <i class="fas fa-trash">
                                     </i>
                                     Delete
